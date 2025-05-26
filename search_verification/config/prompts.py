@@ -24,23 +24,93 @@ Output ONLY the comma-delimited terms, with NO additional explanation
     )
 )
 
-intent_prompt = PromptTemplate(
-    input_variables=["search_term"],
-    template=(
-        "Analyze the search term '{search_term}' and infer the most likely user intent. "
-        "Provide a concise explanation of what the user is probably seeking."
-    )
-)
+# intent_prompt = PromptTemplate(
+#     input_variables=["search_term"],
+#     template=(
+#         "Analyze the search term '{search_term}' and infer the most likely user intent. "
+#         "Provide a concise explanation of what the user is probably seeking."
+#     )
+# )
 
 relevance_scoring_prompt = PromptTemplate(
-    input_variables=["search_term", "intent", "results"],
+    input_variables=["SEARCH_TERM", "SEARCH_RESULTS"],
     template=(
-        "Evaluate the relevance of search results for the term '{search_term}'.\n"
-        "User Intent: {intent}\n"
-        "Search Results: {results}\n\n"
-        "Score the relevance from 0-1, where:\n"
-        "0 = Completely irrelevant\n"
-        "0.5 = Partially relevant\n"
-        "1 = Highly relevant to the user's intent"
+"""
+<Inputs>
+{SEARCH_TERM}
+{SEARCH_RESULTS}
+</Inputs>
+
+<Instructions Structure>
+1. First, define the context and goal of the task
+2. Specify the exact JSON structure required
+3. Provide clear instructions about scoring and relevance
+4. Emphasize the need for a pure JSON response without additional text
+</Instructions>
+
+<Instructions>
+You are a sophisticated search result relevance analyzer for a health care record search service. 
+Your task is to process a search term and a list of search results, and generate a structured JSON response that captures the search intent and relevance of each result.
+
+For the search term, you must infer/determine the user's likely search intent (e.g., were they trying to find a provider, practice, insurance company, or lab)
+
+For each search result, you must:
+1. Assign a relevance score from 1-10 
+2. Provide a concise rationale for the relevance score, 2 sentences or less.
+
+JSON Response Structure:
+```json
+{{
+    "searchTerm": "{SEARCH_TERM}",
+    "inferredIntent": "...",
+    "searchResults": [
+        {{
+            "content": "...",
+            "relevanceScore": 0-10,
+            "relevanceRationale": "..."
+        }}
+    ]
+}}
+```
+
+Scoring Guidelines:
+- 1-3: Minimal or no relevance to search intent
+- 4-6: Partial relevance or tangential connection
+- 7-9: Strong relevance with most key details matching
+- 10: Exact, perfect match to search intent
+
+Important Rules:
+- Provide ONLY the JSON response
+- Do not include any additional text, explanation, or commentary
+- Ensure the JSON is valid and well-formatted
+- Be precise and objective in your scoring and rationales
+
+Process:
+1. Carefully analyze the search term
+2. Determine the most likely search intent
+3. Evaluate each search result against that intent
+4. Score and rationalize each result's relevance
+5. Compile the results into the specified JSON structure
+
+<example>
+{{
+    "searchTerm": "Dr. Smith Cardiology",
+    "inferredIntent": "Find a specific healthcare provider",
+    "searchResults": [
+        {{
+            "content": "Dr. John Smith, Cardiologist, St. Mary's Hospital",
+            "relevanceScore": 9,
+            "relevanceRationale": "Matches name, specialty, and likely practice location"
+        }},
+        {{
+            "content": "Cardiac Care Center",
+            "relevanceScore": 6,
+            "relevanceRationale": "Related to cardiology but not a specific provider match"
+        }}
+    ]
+}}
+</example>
+</Instructions>
+"""
     )
 )
