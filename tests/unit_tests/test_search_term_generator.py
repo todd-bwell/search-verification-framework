@@ -1,4 +1,5 @@
 import pytest
+import logging
 from unittest.mock import patch, MagicMock
 from search_verification_framework.services.search_term_generator import SearchTermGenerator
 
@@ -17,5 +18,6 @@ def test_generate_terms(mock_chat_openai, mock_llm_chain):
 
     # Assert
     assert terms == ["term1", "term2", "term3"]
+
     mock_llm_chain.assert_called_once()
     mock_chain_instance.run.assert_called_once_with(num_terms=3)
