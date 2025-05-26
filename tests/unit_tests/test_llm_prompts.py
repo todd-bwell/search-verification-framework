@@ -1,5 +1,5 @@
 import pytest
-from search_verification_framework.config import prompts
+from search_verification.config import prompts
 
 def test_search_term_prompt_variables():
     assert "num_terms" in prompts.search_term_prompt.input_variables

@@ -4,7 +4,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
-from search_verification_framework.config import prompts
+from search_verification.config import prompts
 
 class SearchTermGenerator:
     logger = logging.getLogger(__name__)

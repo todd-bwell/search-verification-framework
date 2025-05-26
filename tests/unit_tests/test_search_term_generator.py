@@ -1,10 +1,10 @@
 import pytest
 import logging
 from unittest.mock import patch, MagicMock
-from search_verification_framework.services.search_term_generator import SearchTermGenerator
+from search_verification.services.search_term_generator import SearchTermGenerator
 
-@patch("search_verification_framework.services.search_term_generator.LLMChain")
-@patch("search_verification_framework.services.search_term_generator.ChatOpenAI")
+@patch("search_verification.services.search_term_generator.LLMChain")
+@patch("search_verification.services.search_term_generator.ChatOpenAI")
 def test_generate_terms(mock_chat_openai, mock_llm_chain):
     # Arrange
     mock_chain_instance = MagicMock()

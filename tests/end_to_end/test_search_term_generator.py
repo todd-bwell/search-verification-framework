@@ -2,7 +2,7 @@ import pytest
 import logging
 from dotenv import load_dotenv
 import os
-from search_verification_framework.services.search_term_generator import SearchTermGenerator
+from search_verification.services.search_term_generator import SearchTermGenerator
 
 load_dotenv()  # Loads variables from .env
 

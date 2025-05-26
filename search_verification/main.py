@@ -2,7 +2,7 @@ import logging
 import os
 from dotenv import load_dotenv
 
-from services import SearchTermGenerator
+from search_verification.services.search_term_generator import SearchTermGenerator
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -22,8 +22,8 @@ def main():
 
         # Instantiate and invoke SearchTermGenerator
         generator = SearchTermGenerator(model=openai_model)
-        terms = generator.generate_terms(num_terms=10)
-        logger.info("Generated search terms: %s", terms)
+        terms = generator.generate_terms(num_terms=3)
+        logger.info("Generated search terms:\n %s", terms)
 
     except Exception as e:
         logger.exception("An error occurred while running the main process.")
