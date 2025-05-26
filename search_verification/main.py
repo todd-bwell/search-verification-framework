@@ -22,13 +22,15 @@ def main():
             logger.error("Missing required environment variables.")
             return
 
-        # Instantiate and invoke SearchTermGenerator
+        # Generate a set of test search terms
         generator = SearchTermGenerator(model=openai_model)
         terms = generator.generate_terms(num_terms=1)
         logger.info("Generated search terms:\n %s", terms)
 
         # Instantiate GraphQLQueryRunner
         runner = GraphQLQueryRunner(pss_base_url + "/graphql")
+
+
 
         # For each search term, search providers and log the content field
         for term in terms:
