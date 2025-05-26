@@ -6,11 +6,10 @@ from search_verification_framework.services.search_term_generator import SearchT
 
 load_dotenv()  # Loads variables from .env
 
-@pytest.mark.e2e
 def test_generate_terms_e2e():
     # Logging
+    logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
-    logger.info("This is an info log from the test")
 
     openai_model = os.getenv("OPENAI_MODEL")
     if not openai_model:

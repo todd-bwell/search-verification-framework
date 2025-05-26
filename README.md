@@ -11,6 +11,10 @@ A search service vertification tool that uses AI to generate mock search terms, 
 ## Tooling
 The project uses a sequential langchain to generate search terms, query a search service and evaluate the results.
 
+Run tests with console logging:
+
+`pytest --log-cli-level=INFO`
+
 ## Overview
 For an overview of the approach and breakdown of the approach, feed the following prompt to GitHub Copilot:
 ```
