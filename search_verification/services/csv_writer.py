@@ -1,3 +1,4 @@
+import os
 import json
 import csv
 from typing import List, Dict, Any
@@ -28,49 +29,40 @@ class CsvWriter:
       raise ValueError(f"Invalid JSON: {e}")
 
   def write_to_csv(self, output_path: str | Path = 'search_results.csv') -> None:
-    """
-    Write the parsed JSON data to a CSV file.
+      if not self.parsed_data:
+          self._parse_json()
 
-    Args:
-        output_path (str | Path): Path to the output CSV file
-    """
-    # Ensure JSON is parsed first
-    if not self.parsed_data:
-      self._parse_json()
+      headers = [
+          'searchTerm',
+          'inferredIntent',
+          'rank',
+          'content',
+          'relevanceScore',
+          'relevanceRationale'
+      ]
 
-    # Prepare CSV headers and rows
-    headers = [
-      'searchTerm',
-      'inferredIntent',
-      'rank',
-      'content',
-      'relevanceScore',
-      'relevanceRationale'
-    ]
+      output_path = str(output_path)
+      file_exists = os.path.isfile(output_path)
 
-    # Convert Path to string if needed
-    output_path = str(output_path)
+      with open(output_path, 'a', newline='', encoding='utf-8') as csvfile:
+          writer = csv.DictWriter(csvfile, fieldnames=headers)
+          if not file_exists:
+              writer.writeheader()
 
-    with open(output_path, 'w', newline='', encoding='utf-8') as csvfile:
-      writer = csv.DictWriter(csvfile, fieldnames=headers)
-      writer.writeheader()
+          base_row = {
+              'searchTerm': self.parsed_data.get('searchTerm', ''),
+              'inferredIntent': self.parsed_data.get('inferredIntent', '')
+          }
 
-      # Write main search term and intent
-      base_row = {
-        'searchTerm': self.parsed_data.get('searchTerm', ''),
-        'inferredIntent': self.parsed_data.get('inferredIntent', '')
-      }
-
-      # Write each search result as a row
-      for result in self.parsed_data.get('searchResults', []):
-        row = base_row.copy()
-        row.update({
-          'rank': result.get('rank', ''),
-          'content': result.get('content', ''),
-          'relevanceScore': result.get('relevanceScore', ''),
-          'relevanceRationale': result.get('relevanceRationale', '')
-        })
-        writer.writerow(row)
+          for result in self.parsed_data.get('searchResults', []):
+              row = base_row.copy()
+              row.update({
+                  'rank': result.get('rank', ''),
+                  'content': result.get('content', ''),
+                  'relevanceScore': result.get('relevanceScore', ''),
+                  'relevanceRationale': result.get('relevanceRationale', '')
+              })
+              writer.writerow(row)
 
   def convert(self, output_path: str | Path = 'search_results.csv') -> None:
     """

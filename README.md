@@ -1,5 +1,5 @@
 # search-verification-framework
-A search service vertification tool that uses AI to generate mock search terms, query for results and evaluate relevance.
+A search service vertification tool that uses AI to generate mock search terms, query PSS and evaluate relevance of search results.
 
 ## Setup
 1. Clone the repository:
