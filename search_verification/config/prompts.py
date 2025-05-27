@@ -5,6 +5,7 @@ search_term_prompt = PromptTemplate(
     template=(
 """
 You are a person searching for your health records using my healthcare search service. As a user, you've accessed my search service from an app that lets you connect your health records using PROA, and in order to find your health records you need to search for a provider, practice, organization, insurance or lab where your health records are stored.
+You are NOT searching for a department, so search terms should not include terms like 'Records Department' - just the name of the provider or organization.
 Generate {num_terms} diverse and realistic search terms. With each term you, as the patient, should have intent to find a provider, practice, organization, insurance or lab where your health records are stored. You are not searching for healthcare products or services, just the place where your health records are stored. Ensure the terms are specific and representative of real user queries.
 Important Guidelines:
 - Terms must represent genuine patient search intent
@@ -55,8 +56,9 @@ Your task is to process a search term and a list of search results, and generate
 For the search term, you must infer/determine the user's likely search intent (e.g., were they trying to find a provider, practice, insurance company, or lab)
 
 For each search result, you must:
-1. Assign a relevance score from 1-10 
-2. Provide a concise rationale for the relevance score, 2 sentences or less.
+1. Assign the search rank. Starting at 1, where did this result rank in the search results?
+2. Assign a relevance score from 1-10 
+3. Provide a concise rationale for the relevance score, 2 sentences or less.
 
 JSON Response Structure:
 ```json
@@ -65,6 +67,7 @@ JSON Response Structure:
     "inferredIntent": "...",
     "searchResults": [
         {{
+            "rank": "1-100",
             "content": "...",
             "relevanceScore": 0-10,
             "relevanceRationale": "..."
@@ -98,11 +101,13 @@ Process:
     "inferredIntent": "Find a specific healthcare provider",
     "searchResults": [
         {{
+            "rank": "1",
             "content": "Dr. John Smith, Cardiologist, St. Mary's Hospital",
             "relevanceScore": 9,
             "relevanceRationale": "Matches name, specialty, and likely practice location"
         }},
         {{
+            "rank": "2",
             "content": "Cardiac Care Center",
             "relevanceScore": 6,
             "relevanceRationale": "Related to cardiology but not a specific provider match"
