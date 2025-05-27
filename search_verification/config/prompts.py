@@ -25,14 +25,6 @@ Output ONLY the comma-delimited terms, with NO additional explanation
     )
 )
 
-# intent_prompt = PromptTemplate(
-#     input_variables=["search_term"],
-#     template=(
-#         "Analyze the search term '{search_term}' and infer the most likely user intent. "
-#         "Provide a concise explanation of what the user is probably seeking."
-#     )
-# )
-
 relevance_scoring_prompt = PromptTemplate(
     input_variables=["SEARCH_TERM", "SEARCH_RESULTS"],
     template=(
