@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import List, Dict
 from langchain.chat_models import ChatOpenAI
@@ -35,6 +36,9 @@ class SearchResultScorer:
     if not result or not hasattr(result, "content"):
       self._logger.error("LLM result is invalid or missing 'content': %s", result)
       raise RuntimeError("LLM result is invalid or missing 'content'")
+
+    # result["content_json"] = json.loads(result.content)
+    setattr(result, "content_json", json.loads(result.content))
 
     self._logger.info("Raw LLM result: %s", result)
     return result

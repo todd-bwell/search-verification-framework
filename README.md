@@ -15,7 +15,7 @@ Or run tests from the terminal with console logging:
 
 `pytest --log-cli-level=INFO`
 
-## Run `main.py` from command line
+## Run `main.py` from command line - must be in project root
 
 `python -m search_verification.main`
 
