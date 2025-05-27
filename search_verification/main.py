@@ -27,7 +27,7 @@ def main():
 
         # Generate a set of test search terms
         generator = SearchTermGenerator(model=openai_model)
-        terms = generator.generate_terms(num_terms=1)
+        terms = generator.generate_terms(num_terms=3)
         logger.info("Generated search terms:\n %s", terms)
 
         # Instantiate GraphQLQueryRunner
@@ -39,9 +39,6 @@ def main():
             logger.info(f"Searching providers for term: {search_term}")
             result = runner.search_providers(search_term)
             search_results = result.get("data", {}).get("searchProviders", {}).get("results", [])
-            # for res in results:
-            #     content = res.get("content")
-            #     logger.info(f"Result content: {content}")
 
             scored_result = scorer.score_search_results(search_term=search_term, search_results=search_results)
 

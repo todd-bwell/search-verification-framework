@@ -24,7 +24,7 @@ class SearchResultScorer:
           search_results: List[Dict]) -> str:
     self._logger.info("Scoring search results for term: %s", search_term)
     prompt = prompts.relevance_scoring_prompt
-    self._logger.info(f"Prompt: {prompt}")
+    self._logger.debug(f"Prompt: {prompt}")
 
     chain = prompt | self._llm
     try:

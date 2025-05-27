@@ -4,9 +4,9 @@ search_term_prompt = PromptTemplate(
     input_variables=["num_terms"],
     template=(
 """
-You are a person searching for your health records using my healthcare search service. As a user, you've accessed my search service from an app that lets you connect your health records using PROA, and in order to find your health records you need to search for a provider, practice, organization, insurance or lab where your health records are stored.
+You are a person searching for your health records using my healthcare search service. As a user, you've accessed my search service from an app that lets you connect your health records using PROA, and in order to find your health records you need to search for a doctor, practice, organization, insurance or lab where your health records are stored.
 You are NOT searching for a department, so search terms should not include terms like 'Records Department' - just the name of the provider or organization.
-Generate {num_terms} diverse and realistic search terms. With each term you, as the patient, should have intent to find a provider, practice, organization, insurance or lab where your health records are stored. You are not searching for healthcare products or services, just the place where your health records are stored. Ensure the terms are specific and representative of real user queries.
+Generate {num_terms} diverse and realistic search terms. With each term you, as the patient, should have intent to find a doctor, practice, organization, insurance or lab where your health records are stored. You are not searching for healthcare products or services, just the place where your health records are stored. Ensure the terms are specific and representative of real user queries.
 Important Guidelines:
 - Terms must represent genuine patient search intent
 - Focus ONLY on finding record storage locations
@@ -16,7 +16,7 @@ Important Guidelines:
 Generate {num_terms} comma-separated search terms for finding healthcare records.
 
 Rules:
-- Focus strictly on providers, practices, organizations, insurers, or labs storing health records
+- Focus strictly on doctors, practices, organizations, insurers, or labs storing health records
 - Terms must be specific, realistic patient search queries
 - Do NOT include searches for healthcare products or general services
 
@@ -53,7 +53,7 @@ relevance_scoring_prompt = PromptTemplate(
 You are a sophisticated search result relevance analyzer for a health care record search service. 
 Your task is to process a search term and a list of search results, and generate a structured JSON response that captures the search intent and relevance of each result.
 
-For the search term, you must infer/determine the user's likely search intent (e.g., were they trying to find a provider, practice, insurance company, or lab)
+For the search term, you must infer/determine the user's likely search intent (e.g., were they trying to find a doctor, practice, insurance company, or lab)
 
 For each search result, you must:
 1. Assign the search rank. Starting at 1, where did this result rank in the search results?
@@ -98,7 +98,7 @@ Process:
 <example>
 {{
     "searchTerm": "Dr. Smith Cardiology",
-    "inferredIntent": "Find a specific healthcare provider",
+    "inferredIntent": "Find a specific doctor",
     "searchResults": [
         {{
             "rank": "1",
