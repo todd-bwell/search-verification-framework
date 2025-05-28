@@ -62,6 +62,7 @@ Or run tests from the terminal with console logging:
 ## Run `main.py` from command line
 
 Must be in project root
+
 `python -m search_verification.main --num_search_terms {num_search_terms} --output_file {output_file} --pss_envt {pss_envt}`
 
-This will append output to results.csv in the project root.
+This will append output to results.csv in the `output` directory
