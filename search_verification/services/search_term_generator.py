@@ -22,7 +22,7 @@ class SearchTermGenerator:
     ) -> List[str]:
         self._logger.info("Generating %d search terms", num_terms)
         prompt = prompts.search_term_prompt
-        self._logger.debug(f"Prompt: {prompt}")
+        # self._logger.debug(f"Prompt: {prompt}")
 
         chain = prompt | self._llm
         try:
