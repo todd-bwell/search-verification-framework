@@ -11,7 +11,7 @@ Important Guidelines:
 - Terms must represent genuine patient search intent
 - Focus ONLY on finding record storage locations
 - Do NOT generate searches for healthcare products or general services
-- Ensure terms are specific and varied
+- Ensure terms are specific and varied. Avoid using the same doctor names, insurance companies or hospitals repeatedly
 
 Generate {num_terms} comma-separated search terms for finding healthcare records.
 
