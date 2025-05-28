@@ -1,5 +1,20 @@
-# search-verification-framework
-A search service vertification tool that uses AI to generate mock search terms, query PSS and evaluate relevance of search results.
+# PSS Search Verification Tool
+A search vertification tool that uses AI to:
+* generate a set of real-life PROA search terms
+* query PSS
+* evaluate relevance of search results
+
+# Overview
+## Tooling
+The project uses a sequential langchain to generate search terms, query a search service and evaluate the results.
+
+## Overview
+For an overview of the approach and breakdown of the approach, feed the following prompt to GitHub Copilot:
+```
+Explain what the code in `search-verification/main.py` does, including the purpose of each class and method, and how the overall workflow operates.
+```
+
+## Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -27,6 +42,7 @@ sequenceDiagram
     search verification->>csv writer: write search results and scores
 ```
 
+# Local Dev Env't
 ## Setup
 1. Clone the repository:
    ```bash
@@ -35,22 +51,20 @@ sequenceDiagram
    ```
 ## Run tests
 
+Tests are broken into unit tests and end-to-end tests. e2e tests hit the LLM and will take longer to run.
+
 In PyCharm, right-click the tests folder and select `"Run 'Python tests in tests...'".`
 
 Or run tests from the terminal with console logging:
 
 `pytest --log-cli-level=INFO`
 
-## Run `main.py` from command line - must be in project root
+## Run `main.py` from command line
 
-`python -m search_verification.main`
+Must be in project root
 
+`python -m search_verification.main --num_search_terms {num_search_terms} --output_file {output_file}`
 
-## Tooling
-The project uses a sequential langchain to generate search terms, query a search service and evaluate the results.
+Where:
 
-## Overview
-For an overview of the approach and breakdown of the approach, feed the following prompt to GitHub Copilot:
-```
-Explain what the code in `search-verification/main.py` does, including the purpose of each class and method, and how the overall workflow operates.
-```
+This will append output to results.csv in the project root.
