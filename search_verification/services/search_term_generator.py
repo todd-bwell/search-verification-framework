@@ -35,7 +35,7 @@ class SearchTermGenerator:
             self._logger.error("LLM result is invalid or missing 'content': %s", result)
             raise RuntimeError("LLM result is invalid or missing 'content'")
 
-        self._logger.info("Raw LLM result: %s", result)
+        # self._logger.info("Raw LLM result: %s", result)
         terms = [term.strip() for term in result.content.split(',')]
         self._logger.info("Generated terms: %s", terms)
         return terms
