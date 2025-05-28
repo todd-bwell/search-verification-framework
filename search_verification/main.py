@@ -13,15 +13,28 @@ from search_verification.services.search_result_scorer import SearchResultScorer
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def main(num_search_terms:int =5, output_file:str ='results.csv'):
-    logger.info(f"Evaluating search results for {num_search_terms} terms")
+def main(
+        num_search_terms:int =5,
+        output_file:str ='results.csv',
+        pss_envt:str ='DEV'):
     try:
         # Load environment variables
         load_dotenv()
         openai_api_key = os.getenv("OPENAI_API_KEY")
         openai_url = os.getenv("OPENAI_URL")
         openai_model = os.getenv("OPENAI_MODEL")
-        pss_base_url = os.getenv("PSS_BASE_URL")
+        match pss_envt.upper():
+            case 'LOCALHOST':
+                pss_base_url = os.getenv("PSS_BASE_URL_LOCALHOST")
+            case 'DEV':
+                pss_base_url = os.getenv("PSS_BASE_URL_DEV")
+            case 'STAGING':
+                pss_base_url = os.getenv("PSS_BASE_URL_STAGING")
+            case _:
+                logger.error(f"PSS environment: {pss_envt} not supported")
+                return
+
+        logger.info(f"Evaluating PSS {pss_envt} search results for {num_search_terms} terms")
 
         if not openai_api_key or not openai_url or not openai_model:
             logger.error("Missing required environment variables.")
@@ -58,8 +71,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--num_search_terms", type=int, default=5)
     parser.add_argument("--output_file", type=str, default='results.csv',)
+    parser.add_argument("--pss_envt", type=str, default='DEV',)
     args = parser.parse_args()
     main(
         num_search_terms=args.num_search_terms,
-        output_file=args.output_file
+        output_file=args.output_file,
+        pss_envt=args.pss_envt
     )

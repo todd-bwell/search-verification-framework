@@ -40,5 +40,5 @@ class SearchResultScorer:
     # result["content_json"] = json.loads(result.content)
     setattr(result, "content_json", json.loads(result.content))
 
-    self._logger.info("Raw LLM result: %s", result)
+    # self._logger.info("Raw LLM result: %s", result)
     return result
