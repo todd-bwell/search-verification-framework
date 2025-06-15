@@ -1,4 +1,5 @@
 import json
+import datetime
 import logging
 from typing import List, Dict
 from langchain.chat_models import ChatOpenAI
@@ -20,6 +21,7 @@ class SearchResultScorer:
   def score_search_results(
           self,
           *,
+          pss_envt: str,
           search_term: str,
           search_results: List[Dict]) -> str:
     self._logger.info("Scoring search results for term: %s", search_term)
@@ -38,7 +40,11 @@ class SearchResultScorer:
       raise RuntimeError("LLM result is invalid or missing 'content'")
 
     # result["content_json"] = json.loads(result.content)
-    setattr(result, "content_json", json.loads(result.content))
+    result_json = json.loads(result.content)
+    result_json["pss_envt"] = pss_envt
+    result_json["dateTime"] = datetime.datetime.now().isoformat()
+    result_json["pssEnv"] = pss_envt
+    setattr(result, "content_json", result_json)
 
     # self._logger.info("Raw LLM result: %s", result)
     return result

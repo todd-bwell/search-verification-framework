@@ -24,7 +24,8 @@ def test_search_result_converter_creates_csv():
 
     with tempfile.TemporaryDirectory() as tmpdir:
         csv_path = os.path.join(tmpdir, "results.csv")
-        converter = CsvWriter(json_string)
+        pss_envt = "TEST"
+        converter = CsvWriter(json_string, pss_envt=pss_envt)
         converter.convert(csv_path)
 
         with open(csv_path, newline='', encoding='utf-8') as f:

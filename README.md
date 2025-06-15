@@ -1,14 +1,14 @@
 # PSS Search Verification Tool
 A search vertification tool that uses AI to:
-* generate a set of real-life PROA search terms
-* query PSS
-* evaluate relevance of search results
+1. generate a set of real-life PROA search terms
+2. query PSS
+3. evaluate relevance of search results
 
 # Overview
 ## Tooling
 The project uses a sequential langchain to generate search terms, query a search service and evaluate the results.
 
-## Overview
+## Approach
 For an overview of the approach and breakdown of the approach, feed the following prompt to GitHub Copilot:
 ```
 Explain what the code in `search-verification/main.py` does, including the purpose of each class and method, and how the overall workflow operates.
@@ -42,7 +42,7 @@ sequenceDiagram
     search verification->>csv writer: write search results and scores
 ```
 
-# Local Dev Env't
+# Dev Environment Setup
 ## Setup
 1. Clone the repository:
    ```bash
@@ -64,5 +64,9 @@ Or run tests from the terminal with console logging:
 Must be in project root
 
 `python -m search_verification.main --num_search_terms {num_search_terms} --output_file {output_file} --pss_envt {pss_envt}`
+
+example:
+
+`python -m search_verification.main --num_search_terms 5 --output_file "results.csv" --pss_envt "DEV"`
 
 This will append output to results.csv in the `output` directory
