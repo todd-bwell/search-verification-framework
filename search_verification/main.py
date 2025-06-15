@@ -64,7 +64,10 @@ def main(
             # Write search results to csv
             logger.info(f"Writing search result analysis to {output_file}")
             csv_path = os.path.join("./output", output_file)
-            csv_writer = CsvWriter(json.dumps(scored_results.content_json))
+            csv_writer = CsvWriter(
+                json_string=json.dumps(scored_results.content_json),
+                pss_envt=pss_envt
+            )
             csv_writer.convert(csv_path)
 
 
