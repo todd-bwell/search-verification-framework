@@ -5,34 +5,27 @@ from typing import List, Dict, Any
 from pathlib import Path
 
 
+# Initialize the converter with a JSON string.
 class CsvWriter:
-  def __init__(self, json_string: str):
-    """
-    Initialize the converter with a JSON string.
+  def __init__(self, json_string: str, pss_envt: str) -> None:
+    self._json_string = json_string
+    self._parsed_data: Dict[str, Any] = {}
+    self._pss_envt = pss_envt
 
-    Args:
-        json_string (str): A JSON-formatted string to be converted
-    """
-    self.json_string = json_string
-    self.parsed_data: Dict[str, Any] = {}
-
+  # Parse the JSON string and store the result.
   def _parse_json(self) -> None:
-    """
-    Parse the JSON string and store the result.
-
-    Raises:
-        json.JSONDecodeError: If the JSON is invalid
-    """
     try:
-      self.parsed_data = json.loads(self.json_string)
+      self._parsed_data = json.loads(self._json_string)
     except json.JSONDecodeError as e:
       raise ValueError(f"Invalid JSON: {e}")
 
   def write_to_csv(self, output_path: str | Path = 'search_results.csv') -> None:
-      if not self.parsed_data:
+      if not self._parsed_data:
           self._parse_json()
 
       headers = [
+          'pssEnv',
+          'dateTime',
           'searchTerm',
           'inferredIntent',
           'rank',
@@ -50,11 +43,13 @@ class CsvWriter:
               writer.writeheader()
 
           base_row = {
-              'searchTerm': self.parsed_data.get('searchTerm', ''),
-              'inferredIntent': self.parsed_data.get('inferredIntent', '')
+            'pssEnv': self._pss_envt,
+            'dateTime': self._parsed_data.get('dateTime', ''),
+            'searchTerm': self._parsed_data.get('searchTerm', ''),
+            'inferredIntent': self._parsed_data.get('inferredIntent', '')
           }
 
-          for result in self.parsed_data.get('searchResults', []):
+          for result in self._parsed_data.get('searchResults', []):
               row = base_row.copy()
               row.update({
                   'rank': result.get('rank', ''),

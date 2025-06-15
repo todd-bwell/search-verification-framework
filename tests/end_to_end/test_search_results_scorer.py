@@ -20,7 +20,11 @@ def test_score_search_results_e2e():
 
     scorer = SearchResultScorer(model=openai_model)
 
-    result = scorer.score_search_results(search_term=search_term, search_results=search_results)
+    result = scorer.score_search_results(
+        search_term=search_term,
+        search_results=search_results,
+        pss_envt="TEST"
+    )
 
     assert "Dr. Smith" in result.content #Provider name
     assert "1" in result.content # Rank

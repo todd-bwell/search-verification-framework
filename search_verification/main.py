@@ -42,7 +42,7 @@ def main(
 
         # Generate a set of test search terms
         generator = SearchTermGenerator(model=openai_model)
-        terms = generator.generate_terms(num_terms=3)
+        terms = generator.generate_terms(num_terms=num_search_terms)
         logger.info("Generated search terms:\n %s", terms)
 
         # Instantiate GraphQLQueryRunner
@@ -51,16 +51,20 @@ def main(
         # For each search term, search providers and log the content field
         scorer = SearchResultScorer(model=openai_model)
         for search_term in terms:
-            logger.info(f"Searching providers for term: {search_term}")
-            result = runner.search_providers(search_term)
-            search_results = result.get("data", {}).get("searchProviders", {}).get("results", [])
+            logger.info(f"Searching PSS {pss_envt} for term: {search_term}")
+            raw_search_results = runner.search_providers(search_term)
+            search_results = raw_search_results.get("data", {}).get("searchProviders", {}).get("results", [])
 
-            scored_result = scorer.score_search_results(search_term=search_term, search_results=search_results)
+            scored_results = scorer.score_search_results(
+                pss_envt=pss_envt,
+                search_term=search_term,
+                search_results=search_results
+            )
 
             # Write search results to csv
             logger.info(f"Writing search result analysis to {output_file}")
             csv_path = os.path.join("./output", output_file)
-            csv_writer = CsvWriter(json.dumps(scored_result.content_json))
+            csv_writer = CsvWriter(json.dumps(scored_results.content_json))
             csv_writer.convert(csv_path)
 
 
@@ -69,7 +73,7 @@ def main(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--num_search_terms", type=int, default=5)
+    parser.add_argument("--num_search_terms", type=int, default=1)
     parser.add_argument("--output_file", type=str, default='results.csv',)
     parser.add_argument("--pss_envt", type=str, default='DEV',)
     args = parser.parse_args()

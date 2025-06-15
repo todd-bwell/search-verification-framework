@@ -26,7 +26,8 @@ def test_csv_writer_e2e():
 
     with tempfile.TemporaryDirectory() as tmpdir:
         csv_path = os.path.join(tmpdir, "results.csv")
-        converter = CsvWriter(json_string)
+        pss_envt = "TEST"
+        converter = CsvWriter(json_string, pss_envt=pss_envt)
         converter.convert(csv_path)
 
         assert os.path.exists(csv_path)
