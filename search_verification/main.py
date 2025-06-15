@@ -30,6 +30,8 @@ def main(
                 pss_base_url = os.getenv("PSS_BASE_URL_DEV")
             case 'STAGING':
                 pss_base_url = os.getenv("PSS_BASE_URL_STAGING")
+            case 'PROD':
+                pss_base_url = os.getenv("PSS_BASE_URL_PROD")
             case _:
                 logger.error(f"PSS environment: {pss_envt} not supported")
                 return
