@@ -1,5 +1,5 @@
 # PSS Search Verification Tool
-A search vertification tool that uses AI to:
+A search relevance and vertification tool that uses AI to:
 1. generate a set of real-life PROA search terms
 2. query PSS
 3. evaluate relevance of search results
@@ -59,9 +59,9 @@ Or run tests from the terminal with console logging:
 
 `pytest --log-cli-level=INFO`
 
-## Run `main.py` from command line
+## Run from command line
 
-Must be in project root
+From project root
 
 `python -m search_verification.main --num_search_terms {num_search_terms} --output_file {output_file} --pss_envt {pss_envt}`
 
